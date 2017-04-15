@@ -1,6 +1,7 @@
 package bogosort
 
 import (
+	"fmt"
 	"math/rand"
 	"sort"
 )
@@ -11,20 +12,14 @@ func shuffle(xs sort.Interface) {
 	}
 }
 
-func Bogosort(xs sort.Interface) {
+func Bogosort(xs sort.Interface, limit uint) (uint, error) {
+	var i uint = 0
 	for {
 		if sort.IsSorted(xs) {
-			return
+			return i, nil
 		}
-		shuffle(xs)
-	}
-}
-
-func BogosortWithCount(xs sort.Interface) int {
-	i := 0
-	for {
-		if sort.IsSorted(xs) {
-			return i
+		if i > limit {
+			return 0, fmt.Errorf("try count is over limit: %d", limit)
 		}
 		shuffle(xs)
 		i++

@@ -2,6 +2,7 @@ package bogosort
 
 import (
 	"fmt"
+	"math"
 	"math/rand"
 	"testing"
 )
@@ -37,16 +38,20 @@ func TestBogosort(t *testing.T) {
 	var actual Ints
 	expected := Ints([]int{0, 1, 2, 3, 4, 5, 6, 7, 8, 9})
 
+	// Normal
 	actual = Ints([]int{0, 3, 7, 2, 6, 8, 9, 1, 4, 5})
-	Bogosort(actual)
-	if !actual.Eq(expected) {
-		t.Errorf("error")
+	i, err := Bogosort(actual, math.MaxInt64)
+	if err != nil {
+		t.Errorf("...")
 	}
-
-	actual = Ints([]int{3, 8, 5, 9, 0, 4, 1, 2, 6, 7})
-	i := BogosortWithCount(actual)
 	if !actual.Eq(expected) {
-		t.Errorf("error")
+		t.Errorf("...")
 	}
 	fmt.Printf("count: %d\n", i)
+
+	// Abnormal
+	actual = Ints([]int{0, 3, 7, 2, 6, 8, 9, 1, 4, 5})
+	if _, err := Bogosort(actual, 1); err == nil {
+		t.Errorf("...")
+	}
 }
